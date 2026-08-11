@@ -13,7 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 // Get device width for responsive scaling
 const { width } = Dimensions.get("window");
 
-export default function OnboardingScreen() {
+export default function OnboardingScreen({ navigation }) {
   const image = require("../assets/onboarding.png");
 
   return (
@@ -38,7 +38,7 @@ export default function OnboardingScreen() {
 
       {/* Bottom Section - Action Button */}
       <View style={styles.bottomSection}>
-        <Pressable style={styles.button}>
+        <Pressable style={styles.button} onPress={() => navigation.navigate("SignIn")}>
           <View style={styles.buttonContent}>
             {/* Empty view to balance the icon and keep text centered */}
             <View style={{ width: 40 }} /> 
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     width: width * 0.85, // 85% of screen width
     height: 60,
-    borderRadius: 30, // Makes it a pill shape
+    borderRadius: 18, // Makes it a pill shape
     justifyContent: "center",
   },
   buttonContent: {
