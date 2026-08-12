@@ -11,6 +11,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -20,25 +21,49 @@ const { width, height } = Dimensions.get("window");
 // Scaling helper (standardized to iPhone 11/13 width)
 const scale = (size) => (width / 375) * size;
 
-export default function App({navigation}) {
+export default function SignInScreen({ navigation }) {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [hidePassword, setHidePassword] = useState(true);
+
+  const formHandle = () => {
+    if (!email) {
+      Alert.alert("Error", "Enter your email!");
+      return;
+    }
+    if (!email.includes("@")) {
+      Alert.alert("Error", "Invalid email!");
+      return;
+    }
+    if (!password) {
+      Alert.alert("Error", "Enter your Password!");
+      return;
+    }
+    if (password.length < 6) {
+      Alert.alert("Error", "Password should contain atleast 6 characters");
+      return;
+    }
+    Alert.alert("Sign In successfully!");
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={"white"} barStyle={"dark-content"} />
-      
+
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
       >
-        <ScrollView 
+        <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContent}
         >
           {/* Header Section */}
           <View style={styles.headerSection}>
-            <Pressable style={styles.backButton} onPress={() => navigation.goBack()}>
+            <Pressable
+              style={styles.backButton}
+              onPress={() => navigation.goBack()}
+            >
               <Ionicons name="arrow-back" color={"black"} size={scale(24)} />
             </Pressable>
           </View>
@@ -52,23 +77,35 @@ export default function App({navigation}) {
           {/* Title Section */}
           <View style={styles.authTitleSection}>
             <Text style={styles.authTitle}>Welcome Back</Text>
-            <Text style={styles.authSubTitle}>Login to continue your journey</Text>
+            <Text style={styles.authSubTitle}>
+              Login to continue your journey
+            </Text>
           </View>
 
           {/* Form Section */}
           <View style={styles.formSection}>
             <View style={styles.inputContainer}>
-              <Ionicons name="mail-outline" color={"#111111"} size={scale(20)} />
+              <Ionicons
+                name="mail-outline"
+                color={"#111111"}
+                size={scale(20)}
+              />
               <TextInput
                 style={styles.inputText}
                 placeholder="Email Address"
                 keyboardType="email-address"
                 autoCapitalize="none"
+                value={email}
+                onChangeText={setEmail}
               />
             </View>
 
             <View style={styles.inputContainer}>
-              <Ionicons name="lock-closed-outline" color={"#111111"} size={scale(20)} />
+              <Ionicons
+                name="lock-closed-outline"
+                color={"#111111"}
+                size={scale(20)}
+              />
               <TextInput
                 style={styles.inputText}
                 placeholder="Password"
@@ -94,11 +131,15 @@ export default function App({navigation}) {
 
           {/* Login Button Section */}
           <View style={styles.loginButtonSection}>
-            <Pressable style={styles.loginButton}>
+            <Pressable style={styles.loginButton} onPress={formHandle}>
               <View style={styles.loginButtonContent}>
-                <Text style={styles.loginText}>Login</Text>
+                <Text style={styles.loginText}>Sign In</Text>
                 <View style={styles.iconAbsolute}>
-                   <Ionicons name="arrow-forward" color={"white"} size={scale(20)} />
+                  <Ionicons
+                    name="arrow-forward"
+                    color={"white"}
+                    size={scale(20)}
+                  />
                 </View>
               </View>
             </Pressable>
@@ -112,7 +153,12 @@ export default function App({navigation}) {
               <View style={styles.dividerLine} />
             </View>
 
-            <Pressable style={styles.googleButton}>
+            <Pressable
+              style={styles.googleButton}
+              onPress={() =>
+                Alert.alert("Comming Soon", "This feature will coming soon!")
+              }
+            >
               <Ionicons name="logo-google" size={scale(24)} color="black" />
               <Text style={styles.googleButtonText}>Continue with Google</Text>
             </Pressable>
@@ -120,17 +166,16 @@ export default function App({navigation}) {
 
           {/* Footer Section - Create Account Link */}
           <View style={styles.footerSection}>
-             <Text style={styles.footerText}>
-               Don't have an account?{' '}
-               <Text 
-                style={styles.signUpLink} 
-                onPress={() => console.log("Navigate to SignUp")}
-               >
-                 Create Account
-               </Text>
-             </Text>
+            <Text style={styles.footerText}>
+              Don't have an account?{" "}
+              <Text
+                style={styles.signUpLink}
+                onPress={() => navigation.navigate("SignUp")}
+              >
+                Create Account
+              </Text>
+            </Text>
           </View>
-          
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -143,7 +188,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   scrollContent: {
-    flexGrow: 1, 
+    flexGrow: 1,
     paddingBottom: scale(30),
   },
   headerSection: {
@@ -240,7 +285,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
   iconAbsolute: {
-    position: 'absolute',
+    position: "absolute",
     right: 20,
   },
   socialLoginSection: {
@@ -283,16 +328,15 @@ const styles = StyleSheet.create({
   },
   footerSection: {
     marginTop: scale(30),
-    alignItems: 'center',
+    alignItems: "center",
     paddingBottom: scale(20),
   },
   footerText: {
     fontSize: scale(14),
-    color: '#666',
+    color: "#666",
   },
   signUpLink: {
-    color: 'black',
-    fontWeight: 'bold',
-
+    color: "black",
+    fontWeight: "bold",
   },
 });
