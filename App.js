@@ -5,6 +5,7 @@ import IntroScreen from "./screens/IntroScreen";
 import OnboardingScreen from "./screens/OnboardingScreen";
 import SignInScreen from "./screens/SignInScreen";
 import SignUpScreen from "./screens/SignUpScreen";
+import HomeScreen from "./screens/HomeScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -15,7 +16,8 @@ export default function App() {
         <Stack.Screen name="Intro" component={IntroScreen} />
         <Stack.Screen name="Onboarding" component={OnboardingScreen} />
         <Stack.Screen name="SignIn" component={SignInScreen} />
-        <Stack.Screen name="SignUp" component={SignUpScreen}/>
+        <Stack.Screen name="SignUp" component={SignUpScreen} />
+        <Stack.Screen name="Home" component={HomeScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

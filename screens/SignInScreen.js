@@ -43,7 +43,7 @@ export default function SignInScreen({ navigation }) {
       Alert.alert("Error", "Password should contain atleast 6 characters");
       return;
     }
-    Alert.alert("Sign In successfully!");
+    navigation.navigate("Home");
   };
 
   return (
