@@ -54,7 +54,7 @@ export default function SignUpScreen({ navigation }) {
       Alert.alert("Error", "Password not same!");
       return;
     }
-    navigation.navigate("Home")
+    navigation.navigate("BottomTab")
   };
 
   return (

@@ -7,8 +7,17 @@ import {
   TextInput,
   Pressable,
   Image,
+  ScrollView,
+  Dimensions, // Added for responsiveness
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+
+// Get the screen width
+const { width } = Dimensions.get("window");
+
+// Calculate card width: (Screen Width - margins - gap) / 2
+const cardWidth = (width - 40 - 8) / 2;
+
 export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
@@ -31,54 +40,81 @@ export default function HomeScreen() {
           <Ionicons name="options-outline" size={25} />
         </Pressable>
       </View>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
+      >
+        <View style={styles.bannerSection}>
+          <View style={styles.bannerContent}>
+            <Text style={styles.bannerLable}>Nike</Text>
 
-      <View style={styles.bannerSection}>
-        <View style={styles.bannerContent}>
-          <Text style={styles.bannerLable}>Nike</Text>
+            <Text style={styles.bannerTitle}>AIR MAX{"\n"}COLLECTION</Text>
+            <Text style={styles.bannerDiscount}>Up to 30% Off</Text>
 
-          <Text style={styles.bannerTitle}>AIR MAX{"\n"}COLLECTION</Text>
-          <Text style={styles.bannerDiscount}>Up to 30% Off</Text>
-
-          <Pressable style={styles.shopButton}>
-            <Text style={styles.shopText}>Shop Now</Text>
-          </Pressable>
-        </View>
-
-        <Image
-          source={require("../assets/banner1.png")}
-          style={styles.bannerImage}
-        />
-      </View>
-
-      <View style={styles.popularSection}>
-        <Text style={styles.popularText}>Popular Shoes</Text>
-        <View style={styles.viewAllSection}>
-          <Text style={styles.viewText}>View all</Text>
-          <Ionicons name="arrow-forward" size={15} />
-        </View>
-      </View>
-
-      <View style={styles.shoeCard}>
-        <Image
-          style={styles.shoeImage}
-          source={require("../assets/shoe1.png")}
-        />
-        <View style={styles.shoeInfo}>
-          <Text style={styles.shoeName}>Nike Air Max 270</Text>
-          <Text style={styles.shoeCategory}>Men's Shoes</Text>
-
-          <View style={styles.priceRow}>
-            <Text style={styles.shoePrice}>$129.99</Text>
-
-            <Pressable style={styles.addButton}>
-              <Ionicons name="add" size={20} color="white" />
+            <Pressable style={styles.shopButton}>
+              <Text style={styles.shopText}>Shop Now</Text>
             </Pressable>
           </View>
+
+          <Image
+            source={require("../assets/banner1.png")}
+            style={styles.bannerImage}
+          />
         </View>
-      </View>
+
+        <View style={styles.popularSection}>
+          <Text style={styles.popularText}>Popular Shoes</Text>
+          <View style={styles.viewAllSection}>
+            <Text style={styles.viewText}>View all</Text>
+            <Ionicons name="arrow-forward" size={15} />
+          </View>
+        </View>
+
+        {/* Updated Row for Responsiveness */}
+        <View style={styles.shoeRow}>
+          <View style={styles.shoeCard}>
+            <Image
+              style={styles.shoeImage}
+              source={require("../assets/shoe1.png")}
+            />
+
+            <View style={styles.shoeInfo}>
+              <Text style={styles.shoeName} numberOfLines={1}>Nike Air Max 270</Text>
+              <Text style={styles.shoeCategory}>Men's Shoes</Text>
+            </View>
+
+            <View style={styles.priceRow}>
+              <Text style={styles.shoePrice}>$129.99</Text>
+              <Pressable style={styles.addButton}>
+                <Ionicons name="add" size={20} color={"white"} />
+              </Pressable>
+            </View>
+          </View>
+
+          <View style={styles.shoeCard}>
+            <Image
+              style={styles.shoeImage}
+              source={require("../assets/shoe2.png")}
+            />
+
+            <View style={styles.shoeInfo}>
+              <Text style={styles.shoeName} numberOfLines={1}>Nike Air Max 270</Text>
+              <Text style={styles.shoeCategory}>Men's Shoes</Text>
+            </View>
+
+            <View style={styles.priceRow}>
+              <Text style={styles.shoePrice}>$129.99</Text>
+              <Pressable style={styles.addButton}>
+                <Ionicons name="add" size={20} color={"white"} />
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -120,6 +156,9 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: "#111111",
   },
+  scrollContent: {
+    paddingBottom: 100,
+  },
   bannerSection: {
     marginHorizontal: 20,
     marginTop: 12,
@@ -129,20 +168,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "hidden",
     flexDirection: "row",
-    paddingHorizontal: 12,
+    paddingHorizontal: 15,
     backgroundColor: "#e2e2e2",
   },
   bannerContent: {
-    paddingHorizontal: 5,
+    flex: 1, // Added to allow text to take remaining space
     justifyContent: "center",
-    marginTop: 5,
-    marginBottom: 5,
+    marginVertical: 5,
   },
   bannerImage: {
-    width: 160,
+    width: width * 0.35, // Responsive width (35% of screen)
     height: 160,
     resizeMode: "contain",
-    alignSelf: "center",
   },
   bannerLable: {
     fontSize: 20,
@@ -186,53 +223,58 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "600",
   },
+  shoeRow: {
+    flexDirection: "row",
+    paddingHorizontal: 20, // Uses padding instead of margin for better alignment
+    justifyContent: "space-between", // Pushes cards to edges
+    marginTop: 12,
+  },
   shoeCard: {
-    width: 170,
+    width: cardWidth, // Dynamically calculated width
     backgroundColor: "#F7F7F7",
     borderRadius: 20,
     padding: 12,
-    marginHorizontal: 20,
-    marginTop: 12,
+    shadowColor: "black",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.12,
+    shadowRadius: 2,
+    elevation: 4,
   },
-
   shoeImage: {
-    width: "100%",
-    height: 140,
+    width: "100%", // Takes full width of the responsive card
+    height: 120,
     resizeMode: "contain",
   },
-
   shoeInfo: {
-    marginTop: 8,
+    marginTop: 4,
+    gap: 4,
   },
-
-  shoeBrand: {
-    fontSize: 13,
-    color: "#777",
-  },
-
   shoeName: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "700",
-    marginTop: 3,
   },
-
+  shoeCategory: {
+    fontSize: 12,
+    color: "gray",
+  },
   priceRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
     marginTop: 10,
+    alignItems: "center",
   },
-
   shoePrice: {
-    fontSize: 17,
-    fontWeight: "700",
+    fontWeight: "bold",
+    fontSize: 16,
   },
-
   addButton: {
-    width: 34,
-    height: 34,
-    borderRadius: 12,
     backgroundColor: "black",
+    borderRadius: 20,
+    width: 28,
+    height: 28,
     alignItems: "center",
     justifyContent: "center",
   },
