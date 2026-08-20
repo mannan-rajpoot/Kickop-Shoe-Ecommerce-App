@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   appName: {
-    fontSize: 30,
+    fontSize: 28,
     fontWeight: "bold",
   },
   searchBar: {
